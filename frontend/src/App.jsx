@@ -1,19 +1,21 @@
-import { Outlet } from "react-router-dom" 
-import Header from "./components/Header"
-import { Footer } from "./components/Footer"
+import { Outlet } from 'react-router-dom';
+import Header from './components/Header';
+import { Footer } from './components/Footer';
+import { ToastContainer} from 'react-toastify'; //Toastify used for Message fancy box
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-
   return (
     <>
-    <Header/>
-    <main className="min-h-[calc(100vh-120px)]">
-      <Outlet/> 
-    </main>
+      <ToastContainer />
+      <Header />
+      <main className='min-h-[calc(100vh-120px)]'>
+        <Outlet />
+      </main>
       {/* index.jsx of routes sents the value */}
-      <Footer/>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

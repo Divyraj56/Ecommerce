@@ -3,9 +3,10 @@ import { useState } from 'react';
 import loginIcons from '../assest/signin.gif';
 import { FaEye } from 'react-icons/fa';
 import { FaEyeSlash } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import imageTobase64 from '../helpers/imageTobase64';
 import summaryApi from '../common';
+import {toast} from 'react-toastify'
 
 function SignUp() {
   
@@ -18,6 +19,8 @@ function SignUp() {
     confirmPassword: '',
     profilePic: '',
   });
+
+  const navigate = useNavigate()
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -41,8 +44,20 @@ function SignUp() {
         body: JSON.stringify(data),
       });
 
+      
+    
+      
       const dataApi = await dataResponse.json();
-      console.log('data: ', dataApi);
+  
+      if(dataApi.success){
+        toast.success(dataApi.message)
+        navigate('/login')
+      }
+
+      if(dataApi.error){
+        toast.error(dataApi.message)
+      }
+  
     } else {
       console.log('Password and confirm password are not the same');
     }
