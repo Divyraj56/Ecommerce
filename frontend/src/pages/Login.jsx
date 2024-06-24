@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import loginIcons from '../assest/signin.gif';
 import { FaEye } from 'react-icons/fa';
 import { FaEyeSlash } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import summaryApi from '../common';
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +12,8 @@ function Login() {
     email: '',
     password: '',
   });
+
+  const navigate = useNavigate()
 
   const handleOnchange = (e) => {
     const { name, value } = e.target;
@@ -21,8 +25,28 @@ function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
+
+    const dataResponse = await fetch(summaryApi.signIn.url ,{
+      method: summaryApi.signIn.method,
+      credentials : 'include', //include cookies etc
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+
+    const dataApi = await dataResponse.json()
+
+    if(dataApi.success){
+      toast.success(dataApi.message)
+      navigate('/')
+    }
+    if(dataApi.error){
+      toast.error(dataApi.message)
+    }
+
   };
 
   console.log('data login', data);

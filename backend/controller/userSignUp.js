@@ -6,7 +6,8 @@ async function userSignUpController(req,res){
         const { email , password, name} = req.body
 
         console.log("req.body" , req.body);
-        const user = await userModel.findOne({email})
+
+        const user = await userModel.findOne({email}) //chech if the user is already available
 
         if(user){
             throw new Error("Already user Exist!");
@@ -29,6 +30,7 @@ async function userSignUpController(req,res){
 
         const payload = {
             ...req.body,
+            role: "GENERAL",
             password :  hashPassword,
         }
 
